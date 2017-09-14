@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -e
+
+mkdir -p /tmp/workspace/src/
+rsync -avi ./ /tmp/workspace/src
+cd /tmp/workspace
+
+export GOROOT=$(readlink -nf /var/vcap/packages/golang1.8.3)
+export PATH=$GOROOT/bin:$PATH
+export GOPATH=$PWD:$PWD/src/loggregator-release
+
+go test -c -o ./doppler code.cloudfoundry.org/loggregator-bench/doppler
+cp -a ./doppler ${BOSH_INSTALL_TARGET}

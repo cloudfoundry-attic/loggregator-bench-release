@@ -1,0 +1,6 @@
+---
+final_name: loggregator-bench
+blobstore:
+  provider: local
+  options:
+    blobstore_path: /tmp/test-blobs

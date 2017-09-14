@@ -1,0 +1,23 @@
+---
+name: benchmarks
+
+description: "The loggregator benchmarks."
+
+packages:
+- doppler
+templates:
+  run.erb: bin/run
+  doppler.crt.erb: config/doppler.crt
+  doppler.key.erb: config/doppler.key
+  loggregator-ca.crt.erb: config/loggregator-ca.crt
+
+properties:
+  loggregator.doppler.port:
+    description: "The gRPC port"
+    default: 8082
+  loggregator.tls.ca_cert:
+    description: "CA root required for key/cert verification"
+  loggregator.tls.doppler.cert:
+    description: "TLS certificate for doppler"
+  loggregator.tls.doppler.key:
+    description: "TLS key for doppler"

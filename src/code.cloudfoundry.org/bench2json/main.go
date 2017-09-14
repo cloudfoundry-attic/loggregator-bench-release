@@ -3,10 +3,11 @@
 package main
 
 import (
-	"bench2json/internal/scanner"
 	"encoding/json"
 	"log"
 	"os"
+
+	"code.cloudfoundry.org/bench2json/internal/scanner"
 
 	"golang.org/x/tools/benchmark/parse"
 )

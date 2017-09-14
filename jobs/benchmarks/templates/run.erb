@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Running loggregator acceptance tests..."
+
+export GRPC_PORT=<%= p("loggregator.doppler.port") %>
+export GRPC_CERT=/var/vcap/jobs/benchmarks/config/doppler.crt
+export GRPC_KEY=/var/vcap/jobs/benchmarks/config/doppler.key
+export GRPC_CA=/var/vcap/jobs/benchmarks/config/loggregator-ca.crt
+
+/var/vcap/packages/doppler/doppler -test.bench .
