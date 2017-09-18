@@ -4,7 +4,9 @@ name: benchmarks
 description: "The loggregator benchmarks."
 
 packages:
+- bench2json
 - doppler
+
 templates:
   run.erb: bin/run
   doppler.crt.erb: config/doppler.crt

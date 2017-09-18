@@ -1,0 +1,5 @@
+#!/bin/bash
+
+bosh create-release --force
+bosh -e lite upload-release
+bosh -e lite -d loggregator-bench deploy -n --vars-store=./vars.yml manifests/loggregator-bench.yml

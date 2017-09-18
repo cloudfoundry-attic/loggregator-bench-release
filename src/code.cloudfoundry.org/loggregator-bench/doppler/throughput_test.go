@@ -40,7 +40,7 @@ func init() {
 	d.Start()
 }
 
-func BenchmarkThroughput(b *testing.B) {
+func BenchmarkDopplerThroughput(b *testing.B) {
 	b.ReportAllocs()
 
 	cleanup := saturate(grpcConfig)

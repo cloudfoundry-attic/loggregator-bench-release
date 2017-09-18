@@ -29,3 +29,6 @@ releases/**/*.tgz
 /src/github.com/mvdan/interfacer
 /src/github.com/mvdan/lint
 /src/honnef.co/go
+
+# Bosh
+vars.yml
