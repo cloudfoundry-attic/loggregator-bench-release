@@ -1,6 +1,6 @@
 ---
 final_name: loggregator-bench
 blobstore:
-  provider: local
+  provider: s3
   options:
-    blobstore_path: /tmp/test-blobs
+    bucket_name: loggregator-bench-release-blobs
