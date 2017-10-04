@@ -15,13 +15,9 @@ files:
 - loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/grpcmanager/v2/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/listeners/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinks/*.go # gosub
-- loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinks/containermetric/*.go # gosub
-- loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinks/dump/*.go # gosub
-- loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinks/retrystrategy/*.go # gosub
-- loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinks/syslog/*.go # gosub
-- loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinks/syslogwriter/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/sinkserver/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/store/*.go # gosub
+- loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/syslog/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/internal/truncatingbuffer/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/dopplerservice/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/healthendpoint/*.go # gosub
