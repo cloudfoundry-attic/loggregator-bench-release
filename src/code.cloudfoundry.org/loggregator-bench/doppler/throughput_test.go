@@ -52,7 +52,7 @@ func BenchmarkDopplerThroughputV1ToV1(b *testing.B) {
 
 	b.ResetTimer()
 	consumer.observe(b.N)
-	b.StopTimer()
+	b.StopTimer() // We don't want to measure the cleanup
 }
 
 func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
@@ -65,7 +65,140 @@ func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
 
 	b.ResetTimer()
 	consumer.observe(b.N)
-	b.StopTimer()
+	b.StopTimer() // We don't want to measure the cleanup
+}
+
+func BenchmarkDopplerThroughputV2ToV2(b *testing.B) {
+	b.ReportAllocs()
+
+	cleanup := saturateV2Ingress(grpcConfig)
+	defer cleanup()
+	consumer := newV2Consumer(grpcConfig)
+	time.Sleep(5 * time.Second)
+
+	b.ResetTimer()
+	consumer.observe(b.N)
+	b.StopTimer() // We don't want to measure the cleanup
+}
+
+func BenchmarkDopplerThroughputV1ToV1ManySubscribers(b *testing.B) {
+	b.ReportAllocs()
+
+	cleanup := saturateV1Ingress(grpcConfig)
+	defer cleanup()
+	var wg sync.WaitGroup
+	defer wg.Wait()
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			consumer := newV1Consumer(grpcConfig)
+			for {
+				_, err := consumer.client.Recv()
+				if err != nil {
+					return
+				}
+			}
+		}()
+	}
+	b.ResetTimer()
+
+	consumer := newV1Consumer(grpcConfig)
+	time.Sleep(5 * time.Second)
+
+	b.ResetTimer()
+	consumer.observe(b.N)
+	b.StopTimer() // We don't want to measure the cleanup
+}
+
+func BenchmarkDopplerThroughputV1ToV2ManySubscribers(b *testing.B) {
+	b.ReportAllocs()
+
+	cleanup := saturateV1Ingress(grpcConfig)
+	defer cleanup()
+	var wg sync.WaitGroup
+	defer wg.Wait()
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			consumer := newV2Consumer(grpcConfig)
+			for {
+				_, err := consumer.client.Recv()
+				if err != nil {
+					return
+				}
+			}
+		}()
+	}
+	b.ResetTimer()
+
+	consumer := newV2Consumer(grpcConfig)
+	time.Sleep(5 * time.Second)
+
+	b.ResetTimer()
+	consumer.observe(b.N)
+	b.StopTimer() // We don't want to measure the cleanup
+}
+
+func BenchmarkDopplerThroughputV2ToV1ManySubscribers(b *testing.B) {
+	b.ReportAllocs()
+
+	cleanup := saturateV2Ingress(grpcConfig)
+	defer cleanup()
+	var wg sync.WaitGroup
+	defer wg.Wait()
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			consumer := newV1Consumer(grpcConfig)
+			for {
+				_, err := consumer.client.Recv()
+				if err != nil {
+					return
+				}
+			}
+		}()
+	}
+	b.ResetTimer()
+
+	consumer := newV1Consumer(grpcConfig)
+	time.Sleep(5 * time.Second)
+
+	b.ResetTimer()
+	consumer.observe(b.N)
+	b.StopTimer() // We don't want to measure the cleanup
+}
+
+func BenchmarkDopplerThroughputV2ToV2ManySubscribers(b *testing.B) {
+	b.ReportAllocs()
+
+	cleanup := saturateV2Ingress(grpcConfig)
+	defer cleanup()
+	var wg sync.WaitGroup
+	defer wg.Wait()
+	for i := 0; i < 100; i++ {
+		wg.Add(1)
+		go func() {
+			defer wg.Done()
+			consumer := newV2Consumer(grpcConfig)
+			for {
+				_, err := consumer.client.Recv()
+				if err != nil {
+					return
+				}
+			}
+		}()
+	}
+	b.ResetTimer()
+
+	consumer := newV2Consumer(grpcConfig)
+	time.Sleep(5 * time.Second)
+
+	b.ResetTimer()
+	consumer.observe(b.N)
+	b.StopTimer() // We don't want to measure the cleanup
 }
 
 func saturateV1Ingress(g app.GRPC) func() {
@@ -246,12 +379,12 @@ func buildV2Log(appID string, data []byte) *loggregator_v2.Envelope {
 	}
 }
 
-type consumer struct {
+type v1Consumer struct {
 	client plumbing.Doppler_BatchSubscribeClient
 }
 
-func newV1Consumer(g app.GRPC) *consumer {
-	c := &consumer{}
+func newV1Consumer(g app.GRPC) *v1Consumer {
+	c := &v1Consumer{}
 
 	creds, err := plumbing.NewClientCredentials(
 		g.CertFile,
@@ -284,7 +417,7 @@ func newV1Consumer(g app.GRPC) *consumer {
 	return c
 }
 
-func (c *consumer) observe(n int) {
+func (c *v1Consumer) observe(n int) {
 	var count int
 	for {
 		r, err := c.client.Recv()
@@ -292,6 +425,58 @@ func (c *consumer) observe(n int) {
 			log.Panic(err)
 		}
 		count += len(r.Payload)
+		if count > n {
+			break
+		}
+	}
+}
+
+type v2Consumer struct {
+	client loggregator_v2.Egress_BatchedReceiverClient
+}
+
+func newV2Consumer(g app.GRPC) *v2Consumer {
+	c := &v2Consumer{}
+
+	creds, err := plumbing.NewClientCredentials(
+		g.CertFile,
+		g.KeyFile,
+		g.CAFile,
+		"doppler",
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", g.Port), grpc.WithTransportCredentials(creds))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	client := loggregator_v2.NewEgressClient(conn)
+	for {
+		if c.client == nil {
+			var err error
+			ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+			c.client, err = client.BatchedReceiver(ctx, &loggregator_v2.EgressBatchRequest{})
+			if err == nil {
+				break
+			}
+			log.Println(err)
+			time.Sleep(50 * time.Millisecond)
+		}
+	}
+	return c
+}
+
+func (c *v2Consumer) observe(n int) {
+	var count int
+	for {
+		r, err := c.client.Recv()
+		if err != nil {
+			log.Panic(err)
+		}
+		count += len(r.Batch)
 		if count > n {
 			break
 		}
