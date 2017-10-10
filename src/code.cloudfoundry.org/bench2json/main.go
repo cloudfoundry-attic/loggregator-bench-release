@@ -21,7 +21,7 @@ func main() {
 	}
 
 	if err := s.Err(); err != nil {
-		log.Fatal(err)
+		log.Fatal("could not parse benchmarks:", err)
 	}
 
 	data, err := json.Marshal(bs)
