@@ -5,7 +5,7 @@ import (
 	"os"
 	"strconv"
 
-	"loggregator-release/src/code.cloudfoundry.org/loggregator/doppler/app"
+	"code.cloudfoundry.org/loggregator/doppler/app"
 )
 
 var (
