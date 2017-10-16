@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"testing"
 	"time"
 
 	"code.cloudfoundry.org/loggregator/doppler/app"
@@ -25,12 +26,15 @@ func newV1Consumer(g app.GRPC) *v1Consumer {
 		g.CAFile,
 		"doppler",
 	)
+
 	if err != nil {
 		log.Fatal(err)
 	}
 
+	h := fmt.Sprintf("localhost:%d", g.Port)
+	log.Printf("v1Consumer dialing Doppler: %s", h)
 	conn, err := grpc.Dial(
-		fmt.Sprintf("localhost:%d", g.Port),
+		h,
 		grpc.WithTransportCredentials(creds),
 	)
 	if err != nil {
@@ -65,6 +69,35 @@ func (c *v1Consumer) observe(n int) {
 			break
 		}
 	}
+}
+
+func (c *v1Consumer) waitFor(want []byte, b *testing.B) {
+	for i := 0; i < 100; i++ {
+		resp, err := c.client.Recv()
+		if err != nil {
+			b.Fatalf("v1Consumer failed to receive: %s", err)
+			return
+		}
+		for _, got := range resp.Payload {
+			if equal(want, got) {
+				return
+			}
+		}
+	}
+
+	b.Fatal("Did not receive the expected payload")
+}
+
+func equal(a, b []byte) bool {
+	if len(a) != len(b) {
+		return false
+	}
+	for i, x := range a {
+		if b[i] != x {
+			return false
+		}
+	}
+	return true
 }
 
 type v2Consumer struct {

@@ -161,7 +161,7 @@ func randEnvelopeDataGen() func() *plumbing.EnvelopeData {
 
 	for j := 0; j < 5; j++ {
 		envelopes = append(envelopes, &plumbing.EnvelopeData{
-			Payload: buildPayload(),
+			Payload: buildPayload(buildRandomMsg()),
 		})
 	}
 
@@ -171,10 +171,14 @@ func randEnvelopeDataGen() func() *plumbing.EnvelopeData {
 	}
 }
 
-func buildPayload() []byte {
+func buildRandomMsg() []byte {
 	buf := make([]byte, 10)
 	rand.Read(buf)
-	envelope := buildV1Log(buf)
+	return buf
+}
+
+func buildPayload(msg []byte) []byte {
+	envelope := buildV1Log(msg)
 	data, err := proto.Marshal(envelope)
 	if err != nil {
 		log.Fatal(err)

@@ -4,6 +4,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"testing"
 
 	"code.cloudfoundry.org/loggregator/doppler/app"
 )
@@ -13,7 +14,7 @@ var (
 	grpcConfig app.GRPC
 )
 
-func init() {
+func TestMain(m *testing.M) {
 	port, err := strconv.Atoi(os.Getenv("GRPC_PORT"))
 	if err != nil {
 		log.Fatal(err)
@@ -28,4 +29,6 @@ func init() {
 
 	d = app.NewDoppler(grpcConfig)
 	d.Start()
+
+	os.Exit(m.Run())
 }
