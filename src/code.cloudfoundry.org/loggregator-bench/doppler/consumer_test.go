@@ -65,7 +65,7 @@ func (c *v1Consumer) observe(n int) {
 			log.Panic(err)
 		}
 		count += len(r.Payload)
-		if count > n {
+		if count >= n {
 			break
 		}
 	}

@@ -60,3 +60,7 @@ func (p *v1Producer) send(payload []byte) {
 		log.Fatalf("failed to send message: %s", err)
 	}
 }
+
+func (p *v1Producer) closeSend() {
+	p.client.CloseSend()
+}
