@@ -26,7 +26,6 @@ func BenchmarkDopplerThroughputV1ToV1(b *testing.B) {
 	cleanup := saturateV1Ingress(grpcConfig)
 	defer cleanup()
 	consumer := newV1Consumer(grpcConfig)
-	time.Sleep(5 * time.Second)
 
 	b.ResetTimer()
 	consumer.observe(b.N)
@@ -41,7 +40,6 @@ func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
 	cleanup := saturateV2Ingress(grpcConfig)
 	defer cleanup()
 	consumer := newV1Consumer(grpcConfig)
-	time.Sleep(5 * time.Second)
 
 	b.ResetTimer()
 	consumer.observe(b.N)
@@ -56,7 +54,6 @@ func BenchmarkDopplerThroughputV2ToV2(b *testing.B) {
 	cleanup := saturateV2Ingress(grpcConfig)
 	defer cleanup()
 	consumer := newV2Consumer(grpcConfig)
-	time.Sleep(5 * time.Second)
 
 	b.ResetTimer()
 	consumer.observe(b.N)
