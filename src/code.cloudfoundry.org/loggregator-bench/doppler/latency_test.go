@@ -7,8 +7,8 @@ import (
 )
 
 func BenchmarkDopplerLatencyV1ToV1_1000(b *testing.B) {
-	log.Println("Starting Doppler latency benchmark (V1ToV1_1000)...")
-	defer log.Println("Done with Doppler latency benchmark (V1ToV1_1000).")
+	log.Printf("Starting Doppler latency benchmark (V1ToV1_1000) (b.N = %d)...", b.N)
+	defer log.Printf("Done with Doppler latency benchmark (V1ToV1_1000) (b.N = %d).", b.N)
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
@@ -21,14 +21,14 @@ func BenchmarkDopplerLatencyV1ToV1_1000(b *testing.B) {
 			producer.send(payload)
 		}
 		// Assume Doppler drops some envelopes.
-		consumer.observe(900)
+		consumer.observe(500)
 	}
 	b.StopTimer()
 }
 
 func BenchmarkDopplerLatencyV1ToV1_1(b *testing.B) {
-	log.Println("Starting Doppler latency benchmark (V1ToV1_1)...")
-	defer log.Println("Done with Doppler latency benchmark (V1ToV1_1).")
+	log.Printf("Starting Doppler latency benchmark (V1ToV1_1) (b.N = %d)...", b.N)
+	defer log.Printf("Done with Doppler latency benchmark (V1ToV1_1) (b.N = %d).", b.N)
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
