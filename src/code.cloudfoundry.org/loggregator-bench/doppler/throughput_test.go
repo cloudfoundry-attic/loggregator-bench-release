@@ -19,6 +19,8 @@ import (
 )
 
 func BenchmarkDopplerThroughputV1ToV1(b *testing.B) {
+	log.Println("Starting Doppler throughput benchmark (V1ToV1)...")
+	defer log.Println("Done with Doppler throughput benchmark (V1ToV1).")
 	b.ReportAllocs()
 
 	cleanup := saturateV1Ingress(grpcConfig)
@@ -32,6 +34,8 @@ func BenchmarkDopplerThroughputV1ToV1(b *testing.B) {
 }
 
 func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
+	log.Println("Starting Doppler throughput benchmark (V2ToV1)...")
+	defer log.Println("Done with Doppler throughput benchmark (V2ToV1).")
 	b.ReportAllocs()
 
 	cleanup := saturateV2Ingress(grpcConfig)
@@ -45,6 +49,8 @@ func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
 }
 
 func BenchmarkDopplerThroughputV2ToV2(b *testing.B) {
+	log.Println("Starting Doppler throughput benchmark (V2ToV2)...")
+	defer log.Println("Done with Doppler throughput benchmark (V2ToV2).")
 	b.ReportAllocs()
 
 	cleanup := saturateV2Ingress(grpcConfig)

@@ -2,10 +2,13 @@ package doppler_test
 
 import (
 	"fmt"
+	"log"
 	"testing"
 )
 
 func BenchmarkDopplerLatencyV1ToV1_1000(b *testing.B) {
+	log.Println("Starting Doppler latency benchmark (V1ToV1_1000)...")
+	defer log.Println("Done with Doppler latency benchmark (V1ToV1_1000).")
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
@@ -24,6 +27,8 @@ func BenchmarkDopplerLatencyV1ToV1_1000(b *testing.B) {
 }
 
 func BenchmarkDopplerLatencyV1ToV1_1(b *testing.B) {
+	log.Println("Starting Doppler latency benchmark (V1ToV1_1)...")
+	defer log.Println("Done with Doppler latency benchmark (V1ToV1_1).")
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
