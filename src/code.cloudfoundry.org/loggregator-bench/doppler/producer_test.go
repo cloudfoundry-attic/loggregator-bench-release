@@ -6,8 +6,8 @@ import (
 	"log"
 	"time"
 
-	"code.cloudfoundry.org/loggregator/doppler/app"
 	"code.cloudfoundry.org/loggregator/plumbing"
+	"code.cloudfoundry.org/loggregator/router/app"
 	"google.golang.org/grpc"
 )
 

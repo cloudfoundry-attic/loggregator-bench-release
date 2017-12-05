@@ -10,9 +10,9 @@ import (
 	"testing"
 	"time"
 
-	"code.cloudfoundry.org/loggregator/doppler/app"
 	"code.cloudfoundry.org/loggregator/plumbing"
 	loggregator_v2 "code.cloudfoundry.org/loggregator/plumbing/v2"
+	"code.cloudfoundry.org/loggregator/router/app"
 	"github.com/cloudfoundry/sonde-go/events"
 	"github.com/gogo/protobuf/proto"
 	"google.golang.org/grpc"

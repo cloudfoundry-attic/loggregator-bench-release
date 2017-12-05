@@ -6,11 +6,11 @@ import (
 	"strconv"
 	"testing"
 
-	"code.cloudfoundry.org/loggregator/doppler/app"
+	"code.cloudfoundry.org/loggregator/router/app"
 )
 
 var (
-	d          *app.Doppler
+	r          *app.Router
 	grpcConfig app.GRPC
 )
 
@@ -27,8 +27,8 @@ func TestMain(m *testing.M) {
 		CAFile:   os.Getenv("GRPC_CA"),
 	}
 
-	d = app.NewDoppler(grpcConfig)
-	d.Start()
+	r = app.NewRouter(grpcConfig)
+	r.Start()
 
 	os.Exit(m.Run())
 }
