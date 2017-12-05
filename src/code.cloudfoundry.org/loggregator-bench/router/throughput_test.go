@@ -1,4 +1,4 @@
-package doppler_test
+package router_test
 
 import (
 	"context"
@@ -18,9 +18,9 @@ import (
 	"google.golang.org/grpc"
 )
 
-func BenchmarkDopplerThroughputV1ToV1(b *testing.B) {
-	log.Println("Starting Doppler throughput benchmark (V1ToV1)...")
-	defer log.Println("Done with Doppler throughput benchmark (V1ToV1).")
+func BenchmarkRouterThroughputV1ToV1(b *testing.B) {
+	log.Println("Starting Router throughput benchmark (V1ToV1)...")
+	defer log.Println("Done with Router throughput benchmark (V1ToV1).")
 	b.ReportAllocs()
 
 	cleanup := saturateV1Ingress(grpcConfig)
@@ -32,9 +32,9 @@ func BenchmarkDopplerThroughputV1ToV1(b *testing.B) {
 	b.StopTimer() // We don't want to measure the cleanup
 }
 
-func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
-	log.Println("Starting Doppler throughput benchmark (V2ToV1)...")
-	defer log.Println("Done with Doppler throughput benchmark (V2ToV1).")
+func BenchmarkRouterThroughputV2ToV1(b *testing.B) {
+	log.Println("Starting Router throughput benchmark (V2ToV1)...")
+	defer log.Println("Done with Router throughput benchmark (V2ToV1).")
 	b.ReportAllocs()
 
 	cleanup := saturateV2Ingress(grpcConfig)
@@ -46,9 +46,9 @@ func BenchmarkDopplerThroughputV2ToV1(b *testing.B) {
 	b.StopTimer() // We don't want to measure the cleanup
 }
 
-func BenchmarkDopplerThroughputV2ToV2(b *testing.B) {
-	log.Println("Starting Doppler throughput benchmark (V2ToV2)...")
-	defer log.Println("Done with Doppler throughput benchmark (V2ToV2).")
+func BenchmarkRouterThroughputV2ToV2(b *testing.B) {
+	log.Println("Starting Router throughput benchmark (V2ToV2)...")
+	defer log.Println("Done with Router throughput benchmark (V2ToV2).")
 	b.ReportAllocs()
 
 	cleanup := saturateV2Ingress(grpcConfig)
@@ -192,7 +192,7 @@ func buildPayload(msg []byte) []byte {
 
 func buildV1Log(b []byte) *events.Envelope {
 	return &events.Envelope{
-		Origin:    proto.String("doppler"),
+		Origin:    proto.String("router"),
 		EventType: events.Envelope_LogMessage.Enum(),
 		Timestamp: proto.Int64(time.Now().UnixNano()),
 		LogMessage: &events.LogMessage{

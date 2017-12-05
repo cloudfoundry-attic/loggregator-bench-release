@@ -1,4 +1,4 @@
-package doppler_test
+package router_test
 
 import (
 	"fmt"
@@ -6,9 +6,9 @@ import (
 	"testing"
 )
 
-func BenchmarkDopplerLatencyV1ToV1_100(b *testing.B) {
-	log.Printf("Starting Doppler latency benchmark (V1ToV1_100) (b.N = %d)...", b.N)
-	defer log.Printf("Done with Doppler latency benchmark (V1ToV1_100) (b.N = %d).", b.N)
+func BenchmarkRouterLatencyV1ToV1_100(b *testing.B) {
+	log.Printf("Starting Router latency benchmark (V1ToV1_100) (b.N = %d)...", b.N)
+	defer log.Printf("Done with Router latency benchmark (V1ToV1_100) (b.N = %d).", b.N)
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
@@ -20,15 +20,15 @@ func BenchmarkDopplerLatencyV1ToV1_100(b *testing.B) {
 			payload := buildPayload([]byte(msg))
 			producer.send(payload)
 		}
-		// Assume Doppler drops some envelopes.
+		// Assume Router drops some envelopes.
 		consumer.observe(80)
 	}
 	b.StopTimer()
 }
 
-func BenchmarkDopplerLatencyV1ToV1_1(b *testing.B) {
-	log.Printf("Starting Doppler latency benchmark (V1ToV1_1) (b.N = %d)...", b.N)
-	defer log.Printf("Done with Doppler latency benchmark (V1ToV1_1) (b.N = %d).", b.N)
+func BenchmarkRouterLatencyV1ToV1_1(b *testing.B) {
+	log.Printf("Starting Router latency benchmark (V1ToV1_1) (b.N = %d)...", b.N)
+	defer log.Printf("Done with Router latency benchmark (V1ToV1_1) (b.N = %d).", b.N)
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()

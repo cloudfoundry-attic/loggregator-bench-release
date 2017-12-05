@@ -10,5 +10,5 @@ export GOROOT=$(readlink -nf /var/vcap/packages/golang1.9.2)
 export PATH=$GOROOT/bin:$PATH
 export GOPATH=$PWD:$PWD/src/loggregator-release
 
-go test -c -o ./doppler code.cloudfoundry.org/loggregator-bench/doppler
-cp -a ./doppler ${BOSH_INSTALL_TARGET}
+go test -c -o ./router code.cloudfoundry.org/loggregator-bench/router
+cp -a ./router ${BOSH_INSTALL_TARGET}

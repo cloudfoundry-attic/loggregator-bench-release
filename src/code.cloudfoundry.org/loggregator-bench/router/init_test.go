@@ -1,4 +1,4 @@
-package doppler_test
+package router_test
 
 import (
 	"log"

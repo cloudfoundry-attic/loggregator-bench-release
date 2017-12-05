@@ -38,7 +38,7 @@ function sync_package() {
   )
 }
 
-sync_package doppler -test code.cloudfoundry.org/loggregator-bench/doppler &
+sync_package router -test code.cloudfoundry.org/loggregator-bench/router &
 
 wait
 

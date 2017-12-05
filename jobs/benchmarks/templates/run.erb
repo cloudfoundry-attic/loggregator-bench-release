@@ -10,4 +10,4 @@ export GRPC_CA=/var/vcap/jobs/benchmarks/config/loggregator-ca.crt
 export ERROR_LOG=/var/vcap/sys/log/benchmarks/err.log
 mkdir -p $(dirname $ERROR_LOG)
 
-/var/vcap/packages/doppler/doppler -test.bench=. -test.cpu=1000 2> $ERROR_LOG | /var/vcap/packages/bench2json/bench2json
+/var/vcap/packages/router/router -test.bench=. -test.cpu=1000 2> $ERROR_LOG | /var/vcap/packages/bench2json/bench2json

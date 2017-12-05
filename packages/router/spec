@@ -1,5 +1,5 @@
 ---
-name: doppler
+name: router
 
 dependencies:
 - golang1.9.2
@@ -12,7 +12,7 @@ files:
 - loggregator-release/src/code.cloudfoundry.org/go-pubsub/internal/node/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/go-pubsub/pubsub-gen/setters/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/grpc-throughputlb/*.go # gosub
-- code.cloudfoundry.org/loggregator-bench/doppler/*.go # gosub
+- code.cloudfoundry.org/loggregator-bench/router/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/diodes/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/healthendpoint/*.go # gosub
 - loggregator-release/src/code.cloudfoundry.org/loggregator/metricemitter/*.go # gosub

@@ -5,7 +5,7 @@ description: "The loggregator benchmarks."
 
 packages:
 - bench2json
-- doppler
+- router
 
 templates:
   run.erb: bin/run
