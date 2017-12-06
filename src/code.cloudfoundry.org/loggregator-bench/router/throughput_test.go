@@ -26,6 +26,7 @@ func BenchmarkRouterThroughputV1ToV1(b *testing.B) {
 	cleanup := saturateV1Ingress(grpcConfig)
 	defer cleanup()
 	consumer := newV1Consumer(grpcConfig)
+	defer consumer.stop()
 
 	b.ResetTimer()
 	consumer.observe(b.N)
@@ -40,6 +41,7 @@ func BenchmarkRouterThroughputV2ToV1(b *testing.B) {
 	cleanup := saturateV2Ingress(grpcConfig)
 	defer cleanup()
 	consumer := newV1Consumer(grpcConfig)
+	defer consumer.stop()
 
 	b.ResetTimer()
 	consumer.observe(b.N)
@@ -54,6 +56,7 @@ func BenchmarkRouterThroughputV2ToV2(b *testing.B) {
 	cleanup := saturateV2Ingress(grpcConfig)
 	defer cleanup()
 	consumer := newV2Consumer(grpcConfig)
+	defer consumer.stop()
 
 	b.ResetTimer()
 	consumer.observe(b.N)

@@ -15,6 +15,7 @@ import (
 
 type v1Consumer struct {
 	client plumbing.Doppler_BatchSubscribeClient
+	cancel func()
 }
 
 func newV1Consumer(g app.GRPC) *v1Consumer {
@@ -45,9 +46,10 @@ func newV1Consumer(g app.GRPC) *v1Consumer {
 	for {
 		if c.client == nil {
 			var err error
-			ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+			ctx, cancel := context.WithCancel(context.Background())
 			c.client, err = client.BatchSubscribe(ctx, &plumbing.SubscriptionRequest{})
 			if err == nil {
+				c.cancel = cancel
 				break
 			}
 			log.Println(err)
@@ -69,6 +71,10 @@ func (c *v1Consumer) observe(n int) {
 			break
 		}
 	}
+}
+
+func (c *v1Consumer) stop() {
+	c.cancel()
 }
 
 func (c *v1Consumer) waitFor(want []byte, b *testing.B) {
@@ -102,6 +108,7 @@ func equal(a, b []byte) bool {
 
 type v2Consumer struct {
 	client loggregator_v2.Egress_BatchedReceiverClient
+	cancel func()
 }
 
 func newV2Consumer(g app.GRPC) *v2Consumer {
@@ -126,9 +133,10 @@ func newV2Consumer(g app.GRPC) *v2Consumer {
 	for {
 		if c.client == nil {
 			var err error
-			ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+			ctx, cancel := context.WithCancel(context.Background())
 			c.client, err = client.BatchedReceiver(ctx, &loggregator_v2.EgressBatchRequest{})
 			if err == nil {
+				c.cancel = cancel
 				break
 			}
 			log.Println(err)
@@ -150,4 +158,8 @@ func (c *v2Consumer) observe(n int) {
 			break
 		}
 	}
+}
+
+func (c *v2Consumer) stop() {
+	c.cancel()
 }

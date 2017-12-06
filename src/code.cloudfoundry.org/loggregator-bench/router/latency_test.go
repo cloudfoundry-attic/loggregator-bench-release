@@ -12,6 +12,7 @@ func BenchmarkRouterLatencyV1ToV1_100(b *testing.B) {
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
+	defer consumer.stop()
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
@@ -32,6 +33,7 @@ func BenchmarkRouterLatencyV1ToV1_1(b *testing.B) {
 	producer := newV1Producer(grpcConfig)
 	consumer := newV1Consumer(grpcConfig)
 	defer producer.closeSend()
+	defer consumer.stop()
 
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
