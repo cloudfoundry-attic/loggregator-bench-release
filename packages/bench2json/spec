@@ -2,7 +2,7 @@
 name: bench2json
 
 dependencies:
-- golang1.9.2
+- golang1.9.4
 
 files:
 - code.cloudfoundry.org/bench2json/*.go
