@@ -6,7 +6,7 @@ mkdir -p /tmp/workspace/src/
 rsync -avi ./ /tmp/workspace/src
 cd /tmp/workspace
 
-export GOROOT=$(readlink -nf /var/vcap/packages/golang1.10.2)
+export GOROOT=$(readlink -nf /var/vcap/packages/golang1.9.6)
 export PATH=$GOROOT/bin:$PATH
 export GOPATH=$PWD:$PWD/src/loggregator-bench-release
 
