@@ -2,7 +2,7 @@
 name: router
 
 dependencies:
-- golang1.11.1
+- golang1.11.2
 
 files:
 - code.cloudfoundry.org/loggregator-bench/router/*.go # gosub
